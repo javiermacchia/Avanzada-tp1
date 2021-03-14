@@ -65,7 +65,7 @@ public class Principal {
 				
 				if(((Kilo)golo[i]).getOferta()==true) {
 					System.out.println("Ingrese porcentaje de descuento: ");
-					double porcentaje = vali.Decimal(); // hay que validar que no sea mas de 100
+					double porcentaje = vali.Descuento(); // hay que validar que no sea mas de 100
 					((Kilo)golo[i]).setPorcentaje(porcentaje);
 				}
 				

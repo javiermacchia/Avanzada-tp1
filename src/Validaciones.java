@@ -99,5 +99,16 @@ public class Validaciones {
 		}
 		return a;
 	}
+	
+	public static double Descuento() {
+		double a = 0;
+		
+		while(leer.hasNextDouble()==false || (a=leer.nextDouble())<=0 || a>=100) {
+			System.out.println("Error, el número debe ser igual o mayor a cero");
+			leer.nextLine();
+		}
+		
+		return a;
+	}
 
 }
