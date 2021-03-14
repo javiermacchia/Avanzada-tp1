@@ -42,7 +42,7 @@ public class Validaciones {
 		int b = 0;
 		
 		while(leer.hasNextInt()==false || (b=leer.nextInt())<1 || b>2) {
-			System.out.println("Error, el número debe ser igual o mayor a cero");
+			System.out.println("Error, el número debe ser 1 o 2");
 			leer.nextLine();
 		}
 
@@ -61,7 +61,7 @@ public class Validaciones {
 		int a = 0;
 		
 		while(leer.hasNextInt()==false || (a=leer.nextInt())<1 || 12>a) {
-			System.out.println("Error, el número debe ser igual o mayor a cero");
+			System.out.println("Error, el número debe ser un numero de mes (entre 1 y 12)");
 			leer.nextLine();
 		}
 		
@@ -73,7 +73,7 @@ public class Validaciones {
 		String b = "";
 		
 		while(leer.hasNextInt()==false || (a=leer.nextInt())<0 || a>9999) {
-			System.out.println("Error, el número debe ser igual o mayor a cero");
+			System.out.println("Error, el número debe tener entre 1 y 4 dijitos");
 			leer.nextLine();
 		}
 		
@@ -94,7 +94,7 @@ public class Validaciones {
 		int a = 0;
 		
 		while(leer.hasNextInt()==false || (a=leer.nextInt())<9999999 || a>99999999) {
-			System.out.println("Error, el número debe ser igual o mayor a cero");
+			System.out.println("Error, el número debe tener 7 u 8 dijitos");
 			leer.nextLine();
 		}
 		return a;
