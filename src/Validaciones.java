@@ -94,7 +94,7 @@ public class Validaciones {
 		int a = 0;
 		
 		while(leer.hasNextInt()==false || (a=leer.nextInt())<9999999 || a>99999999) {
-			System.out.println("Error, el número debe tener 7 u 8 dijitos");
+			System.out.println("Error, el número debe tener 8 dijitos");
 			leer.nextLine();
 		}
 		return a;
@@ -104,7 +104,7 @@ public class Validaciones {
 		double a = 0;
 		
 		while(leer.hasNextDouble()==false || (a=leer.nextDouble())<=0 || a>=100) {
-			System.out.println("Error, el número debe ser igual o mayor a cero");
+			System.out.println("Error, el número debe ser entre 0 y 100");
 			leer.nextLine();
 		}
 		
