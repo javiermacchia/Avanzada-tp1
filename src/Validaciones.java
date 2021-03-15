@@ -4,6 +4,28 @@ public class Validaciones {
 
 	public static Scanner leer = new Scanner(System.in);
 	
+	public static String medioPago() {
+		int a = 0;
+		String b = "";
+		
+		while(leer.hasNextInt()==false || (a=leer.nextInt())<0 || a>3) {
+			System.out.println("Error, el número debe ser igual o mayor a cero");
+			leer.nextLine();
+		}
+		
+		if(a==1) {
+			b = "Tarjeta credito";
+		}
+		else if(a==2) {
+			b = "Tarjeta debito";
+		}
+		else {
+			b = "Tranferencia";
+		}
+		
+		return b;
+	}
+	
 	public static int Entero() {
 		int a = 0;
 		

@@ -47,10 +47,10 @@ public class Factura implements ICalculo{
 	public Pago getPago() {
 		return pago;
 	}
-	public void setPago(Calendar fechaPago, String formaPago, long numRecibido, long numTransaccion, boolean pagos) { // composicion 
+	public void setPago(Calendar fechaPago, String formaPago, long numRecibo, long numTransaccion, boolean pagos) { // composicion 
 		pago.setFechaPago(fechaPago);
 		pago.setFormaPago(formaPago);
-		pago.setNumRecibido(numRecibido);
+		pago.setNumRecibo(numRecibo);
 		pago.setNumTransaccion(numTransaccion);
 		pago.setPagos(pagos);
 	}
@@ -72,7 +72,11 @@ public class Factura implements ICalculo{
 		return a;
 	}
 	
-	public void iva() {}
+	public void iva() {
+		
+	}
 
-	public void calculoIva() {}
+	public void calculoIva() {
+		
+	}
 }

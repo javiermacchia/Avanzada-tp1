@@ -114,6 +114,7 @@ public class Principal {
 			
 			System.out.println("Fecha de vencimiento: ");
 			Calendar fechaVencimiento = Calendar.getInstance();
+			fechaVencimiento.add(Calendar.MONTH, 1);
 			
 			System.out.println("Ingrese centro emisor");
 			String cEmisor = vali.centroEmisor();
@@ -124,7 +125,21 @@ public class Principal {
 			String numFacturaComp = cEmisor+"-"+numFactu;
 			
 			System.out.println("Ingrese numero de cuit del mayoristas: ");
-			int numMayorista = vali.Entero();
+			long numMayorista = vali.Long();
+			
+			Calendar fechaPago = Calendar.getInstance();
+			
+			System.out.println("Ingrese medio de pago: "); // hay que poner las opciones
+			String mPago = vali.medioPago();
+			
+			System.out.println("Ingrese numero de recibo: ");
+			long numeroRecibo = vali.Long();
+			
+			System.out.println("Ingrese numero de transaccion: ");
+			long numeroTransaccion = vali.Long();
+			
+			System.out.println("Ingrese 1 si abono o 2 si no");
+			boolean pagos = vali.ValidarBool();
 			
 			System.out.println("Ingrese 1 para factura A o 2 para factura B");
 			boolean factura = vali.ValidarBool();
@@ -136,6 +151,8 @@ public class Principal {
 				fact[i] = new FacturaB();
 			}
 			
+			
+			
 			for(int j=0; j<fact[i].getDeta().length; j++) {
 				
 				System.out.println("Ingrese numero de golosina: ");
@@ -144,14 +161,30 @@ public class Principal {
 				for(int c=0; c<golo.length; c++) {
 					if(numeroBusqueda==golo[c].getCodigo()) {
 						fact[i].getDeta()[j].setGolo(golo[c]);
+						
 					}
 				}
 				
 			}
 			
+			for(int c=0; c<mayo.length; c++) {
+				if(numMayorista==mayo[c].getCuit()) {
+					fact[i].setMayo(mayo[c]);
+				}
+			}
+			
+			fact[i].setFechaEmision(fecha);
+			fact[i].setFechaVencimiento(fechaVencimiento);
+			fact[i].setNumeroFactura(numFacturaComp);
+			
+			fact[i].getPago().setFechaPago(fechaPago);
+			fact[i].getPago().setFormaPago(mPago);
+			fact[i].getPago().setNumRecibo(numeroRecibo);
+			fact[i].getPago().setNumTransaccion(numeroTransaccion);
+			fact[i].getPago().setPagos(pagos);
 			
 			
-		}
+		} // cierra facturas
 		
 		
 		
