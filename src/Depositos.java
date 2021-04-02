@@ -3,14 +3,14 @@ public class Depositos {
 
 	private String nombre;
 	private String domicilio;
-	private boolean lugar;
+	private boolean esPropio;
 	
 	Depositos(){}
 	
-	Depositos(String nombre, String domicilio, boolean lugar){
+	Depositos(String nombre, String domicilio, boolean esPropio){
 		this.nombre = nombre;
 		this.domicilio = domicilio;
-		this.lugar = lugar;
+		this.esPropio = esPropio;
 	}
 	
 	public String getNombre() {
@@ -19,16 +19,18 @@ public class Depositos {
 	public void setNombre(String nombre) {
 		this.nombre = nombre;
 	}
+	
 	public String getDomicilio() {
 		return domicilio;
 	}
 	public void setDomicilio(String domicilio) {
 		this.domicilio = domicilio;
 	}
-	public boolean getLugar() {
-		return lugar;
+	
+	public boolean getEsPropio() {
+		return esPropio;
 	}
-	public void setLugar(boolean lugar) {
-		this.lugar = lugar;
+	public void setEsPropio(boolean esPropio) {
+		this.esPropio = esPropio;
 	}
 }

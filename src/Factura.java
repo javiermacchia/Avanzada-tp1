@@ -4,7 +4,9 @@ public class Factura implements ICalculo{
 
 	protected Calendar fechaEmision;
 	protected Calendar fechaVencimiento;
-	protected String numeroFactura;
+	protected static int centroEmisor;
+	protected long numeroFactura;
+	protected static final String nombreTienda = "TODO DULCE";
 	protected Pago pago = new Pago();
 	protected Detalles[] deta = new Detalles[2];
 	protected Mayoristas mayo = new Mayoristas();
@@ -17,14 +19,24 @@ public class Factura implements ICalculo{
 	}
 	
 	Factura(Calendar fechaEmision, Calendar fechaVencimiento, 
-			String numeroFactura, Pago pago, Detalles[] deta, Mayoristas mayo){
+			long numeroFactura, Pago pago, Detalles[] deta, Mayoristas mayo, String nombreTienda, int centroEmisor){
 		this.fechaEmision = fechaEmision;
 		this.fechaVencimiento = fechaVencimiento;
 		this.numeroFactura = numeroFactura;
 		this.pago = pago;
 		this.deta = deta;
 		this.mayo = mayo;
+	//	this.nombreTienda = nombreTienda;
+		this.centroEmisor = centroEmisor;
 	}
+	
+	public String getNombreTienda() {
+		return nombreTienda;
+	}
+
+//	public void setNombreTienda(String nombreTienda) {
+//		this.nombreTienda = nombreTienda;
+//	}
 	
 	public Calendar getFechaEmision() {
 		return fechaEmision;
@@ -38,21 +50,28 @@ public class Factura implements ICalculo{
 	public void setFechaVencimiento(Calendar fechaVencimiento) {
 		this.fechaVencimiento = fechaVencimiento;
 	}
-	public String getNumeroFactura() {
+	public long getNumeroFactura() {
 		return numeroFactura;
 	}
-	public void setNumeroFactura(String numeroFactura) {
+	public void setNumeroFactura(long numeroFactura) {
 		this.numeroFactura = numeroFactura;
 	}
+	public int getCentroEmisor() {
+		return centroEmisor;
+	}
+
+	public void setCentroEmisor(int centroEmisor) {
+		this.centroEmisor = centroEmisor;
+	}
+
 	public Pago getPago() {
 		return pago;
 	}
-	public void setPago(Calendar fechaPago, String formaPago, long numRecibo, long numTransaccion, boolean pagos) { // composicion 
+	public void setPago(Calendar fechaPago, String formaPago, long numRecibo, long numTransaccion) { // composicion 
 		pago.setFechaPago(fechaPago);
 		pago.setFormaPago(formaPago);
 		pago.setNumRecibo(numRecibo);
 		pago.setNumTransaccion(numTransaccion);
-		pago.setPagos(pagos);
 	}
 	public Detalles[] getDeta() {
 		return deta;
@@ -69,14 +88,41 @@ public class Factura implements ICalculo{
 	
 	public double calcularTotal(double a ) {
 		
+		
+		
+		return a;
+	}
+
+	public double calculoIva(double a) {
+				
+		for(int i=0; i<deta.length; i++) {
+			
+			if(deta[i].getGolo().getPromo()) {
+				
+				if(deta[i].getGolo() instanceof Empaquetadas) {
+					
+					if(((Empaquetadas)deta[i].getGolo()).getEs2x1()) {
+						// decidir si aumenta la cantidad o si decuenta 0,5
+					}
+					
+				}
+				else {
+					a = deta[i].getGolo().getPrecioVenta() - deta[i].getGolo().getPrecioVenta()*(((Kilo)deta[i].getGolo()).getPorcentaje()/100);
+				}	
+				
+			}
+		
+		}
+		
+		if(mayo.getCondicionIva()) {
+			a = a*1.27;
+		}
+		else {
+			a = a*1.21;
+		}
+		
 		return a;
 	}
 	
-	public void iva() {
-		
-	}
-
-	public void calculoIva() {
-		
-	}
+	public void imprimirInfo() {}
 }

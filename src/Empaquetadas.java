@@ -6,8 +6,8 @@ public class Empaquetadas extends Golosinas {
 	
 	Empaquetadas(){}
 	
-	Empaquetadas(int a, String b, double c, String[] d, boolean es2x1, Depositos depo){
-		super(a,b,c,d);
+	Empaquetadas(int a, String b, double c, String[] d, boolean e, boolean es2x1, Depositos depo){
+		super(a,b,c,d,e);
 		this.es2x1 = es2x1;
 		this.depo = depo;
 	}
@@ -27,7 +27,5 @@ public class Empaquetadas extends Golosinas {
 	public void setDepo(Depositos depo) {
 		this.depo = depo;
 	}
-	
-	public void Mostrar() {}
 	
 }

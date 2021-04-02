@@ -5,16 +5,14 @@ public class Pago {
 	private String formaPago;
 	private long numRecibo;
 	private long numTransaccion;
-	private boolean pagos;
 	
 	Pago(){}
 	
-	Pago(Calendar fechaPago, String formaPago, long numRecibo, long numTransaccion, boolean pagos){
+	Pago(Calendar fechaPago, String formaPago, long numRecibo, long numTransaccion){
 		this.fechaPago = fechaPago;
 		this.formaPago = formaPago;
 		this.numRecibo = numRecibo;
 		this.numTransaccion = numTransaccion;
-		this.pagos = pagos;
 	}
 
 	public Calendar getFechaPago() {
@@ -41,10 +39,5 @@ public class Pago {
 	public void setNumTransaccion(long numTransaccion) {
 		this.numTransaccion = numTransaccion;
 	}
-	public boolean getPagos() {
-		return pagos;
-	}
-	public void setPagos(boolean pagos) {
-		this.pagos = pagos;
-	}
+
 }
