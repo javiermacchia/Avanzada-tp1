@@ -17,6 +17,7 @@ public class FacturaB extends Factura {
 		System.out.println("Nombre de la tienda: "+nombreTienda);
 		System.out.println("Fecha de emision: "+fechaEmision.get(Calendar.DATE)+"/"+(fechaEmision.get(Calendar.MONTH)+1)+"/"+fechaEmision.get(Calendar.YEAR));
 		System.out.println("Fecha de vencimiento: "+fechaVencimiento.get(Calendar.DATE)+"/"+(fechaVencimiento.get(Calendar.MONTH)+1)+"/"+fechaVencimiento.get(Calendar.YEAR)+"\n");
+		
 		System.out.println("Detalles: \n");
 		for(int i=0; i<deta.length; i++) {
 			System.out.println("Cantidad de golosinas: "+deta[i].getCantidad());
@@ -29,15 +30,14 @@ public class FacturaB extends Factura {
 			System.out.println(deta[i].getGolo().getPromo()?"Esta en promoxion":"No esta en promocion");
 			
 			if(deta[i].getGolo() instanceof Kilo) {
-				System.out.println("Porcentaje de descuento: "+((Kilo)deta[i].getGolo()).getPorcentaje());
+				System.out.println("Porcentaje de descuento: "+((Kilo)this.deta[i].getGolo()).getPorcentaje());
 			}
 			else {
-				System.out.println(((Empaquetadas)deta[i].getGolo()).getEs2x1()?"Es promo 2x1":"No es promo");
-				System.out.println("Nombre del deposito: "+((Empaquetadas)deta[i].getGolo()).getDepo().getNombre());
-				System.out.println("Domicilio del deposito: "+((Empaquetadas)deta[i].getGolo()).getDepo().getDomicilio());
-				System.out.println(((Empaquetadas)deta[i].getGolo()).getDepo().getEsPropio()?"El deposito es propio":"El deposito no es propio");
+				System.out.println(((Empaquetadas)this.deta[i].getGolo()).getEs2x1()?"Es promo 2x1":"No es promo");
+				System.out.println("Nombre del deposito: "+((Empaquetadas)this.deta[i].getGolo()).getDepo().getNombre());
+				System.out.println("Domicilio del deposito: "+((Empaquetadas)this.deta[i].getGolo()).getDepo().getDomicilio());
+				System.out.println(((Empaquetadas)this.deta[i].getGolo()).getDepo().getEsPropio()?"El deposito es propio":"El deposito no es propio");
 			}
-			System.out.println("IVA: "+calculoIva(deta[i].getGolo().getPrecioVenta())+"\n");
 		}
 		
 		System.out.println();
@@ -57,6 +57,61 @@ public class FacturaB extends Factura {
 			System.out.println("Fecha de pago: "+pago.getFechaPago().get(Calendar.DATE)+"/"+(pago.getFechaPago().get(Calendar.MONTH)+1)+"/"+pago.getFechaPago().get(Calendar.YEAR));
 		}
 		
+		System.out.println("Subtotal $"+(calcularTotal()-calculoIva()));
+		System.out.println("IVA $"+String.format("%.3f", calculoIva()));
+		System.out.println("Total $"+calcularTotal());
+		
 	}
-	
+
+	public double calcularTotal() {
+		
+		double total = 0;
+		double IVA = calculoIva();
+		double totalFacturado = 0;
+		
+		for(int i=0; i<deta.length; i++) {
+			
+			if(deta[i].getGolo().getPromo()) {
+				
+				if(((Empaquetadas)this.deta[i].getGolo()).getEs2x1()) {
+					total = total + (deta[i].getCantidad() * 2) * deta[i].getGolo().getPrecioVenta(); 
+				}
+				else {
+					total = total + (deta[i].getCantidad() * deta[i].getGolo().getPrecioVenta()) - (((Kilo)deta[i].getGolo()).getPorcentaje()/100);
+				}
+			}
+			total = total + deta[i].getGolo().getPrecioVenta();	
+			
+		}
+		
+		totalFacturado = total + IVA;
+		
+		return totalFacturado;
+	}
+
+	public double calculoIva() {
+		
+		double total = 0;
+		double totalIVA=0;
+		
+		for(int i=0; i<deta.length; i++) {
+			
+				if(deta[i].getGolo().getPromo()) {
+				
+					if(((Empaquetadas)this.deta[i].getGolo()).getEs2x1()) {
+						total = (deta[i].getCantidad() * 2) * deta[i].getGolo().getPrecioVenta(); 
+						totalIVA = totalIVA +  total * (IVA/100);
+					}
+					else {
+						total = (deta[i].getCantidad() * deta[i].getGolo().getPrecioVenta());
+						totalIVA = totalIVA + total * (IVA/100);
+					}
+				}
+			
+			total = deta[i].getGolo().getPrecioVenta();	
+			totalIVA = totalIVA + total * (IVA/100);
+			
+		}
+		return totalIVA;
+	}
 }

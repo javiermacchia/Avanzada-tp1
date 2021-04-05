@@ -7,8 +7,7 @@ public class Principal {
 	public static Validaciones vali = new Validaciones();
 	
 	public static void main(String[] args) {
-		
-		
+			
 		Depositos[] depo = new Depositos[1]; // son 5
 		
 		System.out.println("Ingreso de depositos \n");
@@ -40,7 +39,7 @@ public class Principal {
 		
 		Menu(opcion,fact,mayo,depo);
 		
-	} // cierra el main
+	} 
 	
 	public static void Menu(int a, Factura[] fact, Mayoristas[] mayo, Depositos[] depo) {
 		
@@ -56,6 +55,9 @@ public class Principal {
 			System.out.println("3-Mostrar Cliente");
 			System.out.println("4-Cantidad de facturas vendidas externos");
 			System.out.println("6-Cantidad de facturas de depositos externos");
+			System.out.println("7-Periodo anio");
+			System.out.println("8-Punto K");
+			System.out.println("9-Cantidad de facturas A");
 			System.out.println("10-Salir");
 			a = vali.Entero();
 			
@@ -65,11 +67,8 @@ public class Principal {
 				mostrarInfo(fact);
 				break;
 				
-			case 2:
-				System.out.println("Ingrese numero de factura: ");
-				long busquedaFactura = vali.Long();
-				
-				regModPago(fact, busquedaFactura);
+			case 2:				
+				regModPago(fact);
 				
 				break;
 				
@@ -86,7 +85,15 @@ public class Principal {
 				break;
 				
 			case 7:
+				periodoAnio(fact);
+				break;
+				
+			case 8:
 				K(fact);
+				break;
+				
+			case 9:
+				cantidadFacturasA(fact);
 				break;
 				
 			case 10:
@@ -123,7 +130,7 @@ public class Principal {
 					cantFacturas++;
 					
 					for(int j=0; j<fact[i].getDeta().length; j++) {
-						totalIva = fact[i].calculoIva(fact[i].getDeta()[j].getGolo().getPrecioVenta());
+					//	totalIva = fact[i].calculoIva(fact[i].getDeta()[j].getGolo().getPrecioVenta());
 					}
 				}
 			}
@@ -140,8 +147,8 @@ public class Principal {
 		}
 	} 
 	
-	public static void cantidadFacturasA(Factura[] fact) {
-		System.out.println("Cantidad de facturas A"+((FacturaA)fact[0]).getCantFacturaA());
+	public static void cantidadFacturasA(Factura[] fact) {	
+		System.out.println("Cantidad de facturas A: "+((FacturaA)fact[0]).getCantFacturaA());
 	}
 	
 	public static void K (Factura[] fact) {
@@ -236,16 +243,18 @@ public class Principal {
 
 		Calendar hoy = Calendar.getInstance();
 		
-		double[] total = new double[2]; 
+		double[] importe = new double[2]; 
 		
 		for(int i=0; i<fact.length; i++) {
 			
 			for(int j=0; j<fact[i].getDeta().length; j++) {
 			
-				total[j] = fact[i].getDeta()[j].getGolo().getPrecioVenta();
+				importe[j] = fact[i].getDeta()[j].getGolo().getPrecioVenta();
 				
 			}
 		}
+		
+		
 		
 		
 		
@@ -316,13 +325,16 @@ public class Principal {
 		}
 	}
 
-	public static void regModPago(Factura[] fact, long numero) {
+	public static void regModPago(Factura[] fact) {
 		
+		boolean ciclo = true;
 		System.out.println("Ingrese numero de factura: ");
-		long numFactura = vali.Long();
+		long numFactura = vali.valiLong();
 		
+		while(ciclo) {
+			
 			for(int i=0; i<fact.length; i++) {
-					
+				
 				if(fact[i].getNumeroFactura()==numFactura) {
 				
 				Calendar fecha = Calendar.getInstance();	
@@ -346,14 +358,23 @@ public class Principal {
 				fact[i].getPago().setFormaPago(medioPagoMod);
 				
 				System.out.println("Ingrese numero de recibo: ");
-				long numReciboMod = vali.Long();
+				long numReciboMod = vali.valiLong();
 				fact[i].getPago().setNumRecibo(numReciboMod);
 							
 				System.out.println("Ingrese numero de transaccion: ");
-				long numTransaccMod = vali.Long();
+				long numTransaccMod = vali.valiLong();
 				fact[i].getPago().setNumTransaccion(numTransaccMod);
+				
+				ciclo=false;
 							
-				}							
+				}
+			
+				else {
+					System.out.println("Factura no encontrada ingrese nuevamente: ");
+					numFactura = vali.valiLong();
+				}
+				
+			}		
 		}
 	}
 	
@@ -368,7 +389,7 @@ public class Principal {
 			mayo[i].setRazonSocial(razonSocial);
 			
 			System.out.println("Ingrese numero de cuit: ");
-			long cuit = vali.Long();
+			long cuit = vali.valiLong();
 			mayo[i].setCuit(cuit);
 			
 			System.out.println("Ingrese 1 si es responsable inscripto o 2 si no");
@@ -416,12 +437,9 @@ public class Principal {
 				
 				String[] sabo = new String[3];
 				
-				String sabor = "";
-				
 				for(int j=0; j<sabo.length; j++) {
 					System.out.println("Ingrese del sabor numero: "+(j+1));
-					sabor = leer.nextLine();
-					sabo[j] = sabor;
+					sabo[j] = leer.nextLine();		
 				}
 				
 				System.out.println("Ingrese 1 para golosina por kilo o 2 para empaquetada: ");
@@ -476,6 +494,7 @@ public class Principal {
 	public static void cargaFacturas(Factura[] fact, Golosinas[] golo, Mayoristas[] mayo) {
 		
 		int contadorFacturaA = 0;
+		boolean golosina = true;
 		
 		for(int i=0; i<fact.length; i++) {
 			
@@ -492,7 +511,7 @@ public class Principal {
 			
 			
 			System.out.println("Ingrese numero de cuit del mayoristas: ");
-			long numMayorista = vali.Long();
+			long numMayorista = vali.valiLong();
 			boolean condicionIva = false;
 			
 			for(int d=0; d<mayo.length; d++) {
@@ -501,7 +520,7 @@ public class Principal {
 				}
 				else {
 					System.out.println("Error, numero de cuit inexistente, ingrese nuevamente: ");
-					numMayorista = vali.Long();
+					numMayorista = vali.valiLong();
 				}
 			}
 			
@@ -511,10 +530,10 @@ public class Principal {
 			String mPago = vali.medioPago();
 			
 			System.out.println("Ingrese numero de recibo: ");
-			long numeroRecibo = vali.Long();
+			long numeroRecibo = vali.valiLong();
 			
 			System.out.println("Ingrese numero de transaccion: ");
-			long numeroTransaccion = vali.Long();
+			long numeroTransaccion = vali.valiLong();
 			
 			System.out.println("Ingrese 1 si abono o 2 si no");
 			boolean pagos = vali.ValidarBool();
@@ -540,14 +559,22 @@ public class Principal {
 				double cant = vali.Decimal();
 				fact[i].getDeta()[j].setCantidad(cant);
 				
-				System.out.println("Ingrese numero de golosina: ");
+				System.out.println("Ingrese codigo de golosina: ");
 				int numeroBusqueda = vali.Entero();
 				
 				for(int c=0; c<golo.length; c++) {
-					if(numeroBusqueda==golo[c].getCodigo()) {
-						fact[i].getDeta()[j].setGolo(golo[c]);
+					if(golosina) {
 						
+						if(numeroBusqueda==golo[c].getCodigo()) {
+							fact[i].getDeta()[j].setGolo(golo[c]);
+							golosina=false;
+						}
+						else {
+							System.out.println("Error, golosina inexistente ingrese nuevamente");
+							numeroBusqueda = vali.Entero();
+						}
 					}
+					
 				}
 				
 			}

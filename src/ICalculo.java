@@ -1,8 +1,10 @@
 
 public interface ICalculo {
 
-	public double calcularTotal(double a);
+	public double calcularTotal();
 	
-	int a = 21;
+	public double calculoIva();
+	
+	int IVA = 21;
 	
 }

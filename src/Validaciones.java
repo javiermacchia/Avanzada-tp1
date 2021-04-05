@@ -5,19 +5,16 @@ public class Validaciones {
 	public static Scanner leer = new Scanner(System.in);
 	
 	public void ordenDescendente(int[] arreglo) {
-        //iteramos sobre los elementos del arreglo
+
         for (int i = 0 ; i < arreglo.length - 1 ; i++) {
             int max = i;
  
-            //buscamos el mayor número
             for (int j = i + 1 ; j < arreglo.length ; j++) {
                 if (arreglo[j] > arreglo[max]) {
-                    max = j;    //encontramos el mayor número
                 }
             }
  
             if (i != max) {
-                //permutamos los valores
                 int aux = arreglo[i];
                 arreglo[i] = arreglo[max];
                 arreglo[max] = aux;
@@ -77,7 +74,7 @@ public class Validaciones {
 		return a;
 	}
 	
-	public long Long() {
+	public long valiLong() {
 		long a = 0;
 		
 		while(leer.hasNextLong()==false || (a=leer.nextLong())<0) {

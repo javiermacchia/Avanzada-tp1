@@ -1,6 +1,6 @@
 import java.util.*;
 
-public class Factura implements ICalculo{
+public abstract class Factura implements ICalculo{
 
 	protected Calendar fechaEmision;
 	protected Calendar fechaVencimiento;
@@ -8,7 +8,7 @@ public class Factura implements ICalculo{
 	protected long numeroFactura;
 	protected static final String nombreTienda = "TODO DULCE";
 	protected Pago pago = new Pago();
-	protected Detalles[] deta = new Detalles[2];
+	protected Detalles[] deta = new Detalles[1];
 	protected Mayoristas mayo = new Mayoristas();
 	
 	Factura(){
@@ -26,17 +26,12 @@ public class Factura implements ICalculo{
 		this.pago = pago;
 		this.deta = deta;
 		this.mayo = mayo;
-	//	this.nombreTienda = nombreTienda;
 		this.centroEmisor = centroEmisor;
 	}
 	
 	public String getNombreTienda() {
 		return nombreTienda;
 	}
-
-//	public void setNombreTienda(String nombreTienda) {
-//		this.nombreTienda = nombreTienda;
-//	}
 	
 	public Calendar getFechaEmision() {
 		return fechaEmision;
@@ -76,8 +71,9 @@ public class Factura implements ICalculo{
 	public Detalles[] getDeta() {
 		return deta;
 	}
-	public void setDeta(Golosinas golo, int i) {
+	public void setDeta(double cantidad, Golosinas golo, int i) {
 		deta[i].setGolo(golo);
+		deta[i].setCantidad(cantidad);
 	}
 	public Mayoristas getMayo() {
 		return mayo;
@@ -86,43 +82,19 @@ public class Factura implements ICalculo{
 		this.mayo = mayo;
 	}
 	
-	public double calcularTotal(double a ) {
+	public double calcularTotal() {
+		double total = 0;
 		
-		
-		
-		return a;
+		return total;
+	
 	}
 
-	public double calculoIva(double a) {
-				
-		for(int i=0; i<deta.length; i++) {
-			
-			if(deta[i].getGolo().getPromo()) {
-				
-				if(deta[i].getGolo() instanceof Empaquetadas) {
-					
-					if(((Empaquetadas)deta[i].getGolo()).getEs2x1()) {
-						// decidir si aumenta la cantidad o si decuenta 0,5
-					}
-					
-				}
-				else {
-					a = deta[i].getGolo().getPrecioVenta() - deta[i].getGolo().getPrecioVenta()*(((Kilo)deta[i].getGolo()).getPorcentaje()/100);
-				}	
-				
-			}
+	public double calculoIva() {
+		double iva = 0;
+	
 		
-		}
-		
-		if(mayo.getCondicionIva()) {
-			a = a*1.27;
-		}
-		else {
-			a = a*1.21;
-		}
-		
-		return a;
+		return iva;
 	}
 	
-	public void imprimirInfo() {}
+	public abstract void imprimirInfo();
 }
