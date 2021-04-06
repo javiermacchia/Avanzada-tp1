@@ -4,7 +4,7 @@ public class Validaciones {
 
 	public static Scanner leer = new Scanner(System.in);
 	
-	public void ordenDescendente(int[] arreglo) {
+	public void ordenDescendente(double[] arreglo) {
 
         for (int i = 0 ; i < arreglo.length - 1 ; i++) {
             int max = i;
@@ -15,7 +15,7 @@ public class Validaciones {
             }
  
             if (i != max) {
-                int aux = arreglo[i];
+                double aux = arreglo[i];
                 arreglo[i] = arreglo[max];
                 arreglo[max] = aux;
             }

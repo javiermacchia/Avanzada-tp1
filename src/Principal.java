@@ -37,11 +37,11 @@ public class Principal {
 		
 		int opcion = 0;
 		
-		Menu(opcion,fact,mayo,depo);
+		Menu(opcion,fact,mayo,depo,args);
 		
 	} 
 	
-	public static void Menu(int a, Factura[] fact, Mayoristas[] mayo, Depositos[] depo) {
+	public static void Menu(int a, Factura[] fact, Mayoristas[] mayo, Depositos[] depo, String[] args) {
 		
 		boolean menu = true;
 		
@@ -54,6 +54,7 @@ public class Principal {
 			System.out.println("2-Registro / modificacion de factura");
 			System.out.println("3-Mostrar Cliente");
 			System.out.println("4-Cantidad de facturas vendidas externos");
+			System.out.println("5-Numero de factura vencida e impaga");
 			System.out.println("6-Cantidad de facturas de depositos externos");
 			System.out.println("7-Periodo anio");
 			System.out.println("8-Punto K");
@@ -78,6 +79,10 @@ public class Principal {
 				
 			case 4:
 				cantPaquetes(fact);
+				break;
+				
+			case 5:
+				vencidasImpagas(fact,args);
 				break;
 				
 			case 6:
@@ -128,10 +133,7 @@ public class Principal {
 				if(fact[i].getFechaEmision().get(Calendar.MONTH)==mes && fact[i].getFechaEmision().get(Calendar.YEAR)==hoy.get(Calendar.YEAR)) {
 				
 					cantFacturas++;
-					
-					for(int j=0; j<fact[i].getDeta().length; j++) {
-					//	totalIva = fact[i].calculoIva(fact[i].getDeta()[j].getGolo().getPrecioVenta());
-					}
+					totalIva = totalIva + fact[i].calculoIva();
 				}
 			}
 			
@@ -239,35 +241,41 @@ public class Principal {
 		System.out.println("Cantidad de golosinas por paquete: "+cantGoloPaquetes);
 	}
 	
-	public static void vencidasImpagas(Factura[] fact) {
+	public static void vencidasImpagas(Factura[] fact, String[] args) {
+		
+		/*Mostrar por pantalla los números de facturas vencidas impagas, ordenados por
+		importe en forma descendente cuyo importe total vendido supere el valor ingresado
+		como argumento de la aplicación y se trate de ventas exclusivas de golosinas por
+		peso.*/
 
 		Calendar hoy = Calendar.getInstance();
 		
-		double[] importe = new double[2]; 
+		double[] importe = new double[fact.length]; 
 		
 		for(int i=0; i<fact.length; i++) {
-			
-			for(int j=0; j<fact[i].getDeta().length; j++) {
-			
-				importe[j] = fact[i].getDeta()[j].getGolo().getPrecioVenta();
-				
-			}
+		
+			importe[i] = fact[i].calcularTotal();
 		}
 		
+		vali.ordenDescendente(importe);
 		
-		
-		
-		
-		for(Factura f: fact) {
+		for(Double imp: importe) {
 			
-			if(f.getFechaVencimiento().after(hoy) && f.getPago().getFormaPago()==null) {
+			for(int j=0; j<fact.length; j++) {
 				
-				
-				
+				if(imp==fact[j].calcularTotal() && fact[j].calcularTotal()>Double.parseDouble(args[0])) {
+					
+					if(fact[j].getFechaVencimiento().after(hoy) && fact[j].getPago().getFormaPago()==null) {
+						
+						for(int z=0; z<fact[j].getDeta().length; z++) {
+							if(fact[j].getDeta()[z].getGolo() instanceof Kilo) {
+								System.out.println("Numero de factura: "+fact[j].getCentroEmisor()+"-"+fact[j].getNumeroFactura());
+							}
+						}
+					}
+				}
 			}
-			
 		}
-		
 	}
 		
 	public static void mostrarInfo(Factura[] fact) {

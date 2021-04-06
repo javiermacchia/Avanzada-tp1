@@ -86,12 +86,10 @@ public abstract class Factura implements ICalculo{
 		double total = 0;
 		
 		return total;
-	
 	}
 
 	public double calculoIva() {
 		double iva = 0;
-	
 		
 		return iva;
 	}
