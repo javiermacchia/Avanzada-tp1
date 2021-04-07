@@ -4,24 +4,6 @@ public class Validaciones {
 
 	public static Scanner leer = new Scanner(System.in);
 	
-	public void ordenDescendente(double[] arreglo) {
-
-        for (int i = 0 ; i < arreglo.length - 1 ; i++) {
-            int max = i;
- 
-            for (int j = i + 1 ; j < arreglo.length ; j++) {
-                if (arreglo[j] > arreglo[max]) {
-                }
-            }
- 
-            if (i != max) {
-                double aux = arreglo[i];
-                arreglo[i] = arreglo[max];
-                arreglo[max] = aux;
-            }
-        }
-	}
-	
 	public String mostrarFecha(Calendar f) {
 		
 		String a ="";
@@ -35,20 +17,26 @@ public class Validaciones {
 		int a = 0;
 		String b = "";
 		
-		while(leer.hasNextInt()==false || (a=leer.nextInt())<0 || a>3) {
+		while(leer.hasNextInt()==false || (a=leer.nextInt())<=0 || a>3) {
 			System.out.println("Error, debe ingresar 1, 2 o 3");
 			leer.nextLine();
 		}
 		
-		if(a==1) {
+		switch(a) {
+		
+		case 1:
 			b = "Tarjeta credito";
-		}
-		else if(a==2) {
+			break;
+			
+		case 2:
 			b = "Tarjeta debito";
-		}
-		else {
+			break;
+		
+		case 3:
 			b = "Tranferencia";
+			break;
 		}
+		
 		return b;
 	}
 	

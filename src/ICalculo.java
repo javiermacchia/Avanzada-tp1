@@ -3,7 +3,7 @@ public interface ICalculo {
 
 	public double calcularTotal();
 	
-	public double calculoIva();
+	public double calcularIva();
 	
 	int IVA = 21;
 	

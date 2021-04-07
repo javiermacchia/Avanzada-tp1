@@ -61,7 +61,7 @@ public class FacturaA extends Factura {
 				System.out.println(((Empaquetadas)this.deta[i].getGolo()).getDepo().getEsPropio()?"El deposito es propio":"El deposito no es propio");
 			}
 			
-			System.out.println("IVA total: "+String.format("%.3f", calculoIva())+"\n");
+			System.out.println("IVA total: "+String.format("%.3f", calcularIva())+"\n");
 		}
 		
 		System.out.println();
@@ -83,8 +83,8 @@ public class FacturaA extends Factura {
 			System.out.println("Fecha de pago: "+pago.getFechaPago().get(Calendar.DATE)+"/"+(pago.getFechaPago().get(Calendar.MONTH)+1)+"/"+pago.getFechaPago().get(Calendar.YEAR));
 		}
 		
-		System.out.println("Subtotal $"+(calcularTotal()-calculoIva()));
-		System.out.println("IVA $"+String.format("%.3f", calculoIva()));
+		System.out.println("Subtotal $"+(calcularTotal()-calcularIva()));
+		System.out.println("IVA $"+String.format("%.3f", calcularIva()));
 		System.out.println("Total $"+calcularTotal());
 		
 	}
@@ -92,7 +92,7 @@ public class FacturaA extends Factura {
 	public double calcularTotal() {
 	
 		double total = 0;
-		double IVA = calculoIva();
+		double IVA = calcularIva();
 		double totalFacturado = 0;
 		
 		for(int i=0; i<deta.length; i++) {
@@ -115,7 +115,7 @@ public class FacturaA extends Factura {
 		return totalFacturado;
 	}
 
-	public double calculoIva() {
+	public double calcularIva() {
 	
 		double total = 0;
 		double totalIVA = 0;

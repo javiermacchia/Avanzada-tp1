@@ -8,21 +8,21 @@ public class Principal {
 	
 	public static void main(String[] args) {
 			
-		Depositos[] depo = new Depositos[1]; // son 5
+		Depositos[] depo = new Depositos[5]; 
 		
 		System.out.println("Ingreso de depositos \n");
 		
 		cargaDepositos(depo);
 		
 		
-		Mayoristas[] mayo = new Mayoristas[1]; // son 15
+		Mayoristas[] mayo = new Mayoristas[15]; 
 		
 		System.out.println("Ingreso de clientes \n");
 		
 		cargaClientes(mayo);
 				
 		
-		Golosinas[] golo = new Golosinas[1]; // Definir dimension 
+		Golosinas[] golo = new Golosinas[3]; 
 		
 		System.out.println("Ingreso de golosinas \n");
 		
@@ -94,7 +94,7 @@ public class Principal {
 				break;
 				
 			case 8:
-				K(fact);
+				numeroFactura(fact);
 				break;
 				
 			case 9:
@@ -133,7 +133,7 @@ public class Principal {
 				if(fact[i].getFechaEmision().get(Calendar.MONTH)==mes && fact[i].getFechaEmision().get(Calendar.YEAR)==hoy.get(Calendar.YEAR)) {
 				
 					cantFacturas++;
-					totalIva = totalIva + fact[i].calculoIva();
+					totalIva = totalIva + fact[i].calcularIva();
 				}
 			}
 			
@@ -153,7 +153,7 @@ public class Principal {
 		System.out.println("Cantidad de facturas A: "+((FacturaA)fact[0]).getCantFacturaA());
 	}
 	
-	public static void K (Factura[] fact) {
+	public static void numeroFactura (Factura[] fact) {
 		
 		/*Mostrar por pantalla, número de factura, fecha de pago (si existe) de las facturas
 		donde todas las golosinas vendidas comienzan con las dos primeras letras ingresadas
@@ -293,6 +293,12 @@ public class Principal {
 	}
 	
 	public static void mostrarCliente(Mayoristas[] mayo, Factura[] fact) {
+	
+		/*Para cada uno de los clientes, mostrar su CUIT y razón social, números de factura
+		correspondientes, tipo (factura A o B), fecha de emisión y de vencimiento de aquellas
+		emitidas durante los tres últimos meses. Incluir la descripción, cantidad, precio de las
+		golosinas vendidas y si tiene alguna promoción o descuento aplicado, y la cantidad de
+		facturas emitidas.*/
 		
 		Calendar hoy = Calendar.getInstance();
 		Calendar fechaVencimiento = Calendar.getInstance();
@@ -342,6 +348,9 @@ public class Principal {
 
 	public static void regModPago(Factura[] fact) {
 		
+		/*A partir de un número de factura ingresado por teclado, registrar el pago de la misma
+		o bien, modificar el existente.*/
+		
 		boolean ciclo = true;
 		System.out.println("Ingrese numero de factura: ");
 		long numFactura = vali.valiLong();
@@ -385,7 +394,7 @@ public class Principal {
 				}
 			
 				else {
-					System.out.println("Factura no encontrada ingrese nuevamente: ");
+					System.out.println("Factura no encontrada, ingrese nuevamente: ");
 					numFactura = vali.valiLong();
 				}
 			}		
