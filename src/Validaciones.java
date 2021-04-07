@@ -36,7 +36,7 @@ public class Validaciones {
 		String b = "";
 		
 		while(leer.hasNextInt()==false || (a=leer.nextInt())<0 || a>3) {
-			System.out.println("Error, el número debe ser igual o mayor a cero");
+			System.out.println("Error, debe ingresar 1, 2 o 3");
 			leer.nextLine();
 		}
 		
@@ -49,7 +49,6 @@ public class Validaciones {
 		else {
 			b = "Tranferencia";
 		}
-		
 		return b;
 	}
 	
@@ -70,7 +69,6 @@ public class Validaciones {
 			System.out.println("Error, el número debe ser igual o mayor a cero");
 			leer.nextLine();
 		}
-		
 		return a;
 	}
 	
@@ -81,7 +79,6 @@ public class Validaciones {
 			System.out.println("Error, el número debe ser igual o mayor a cero");
 			leer.nextLine();
 		}
-		
 		return a; 
 	}
 	
@@ -94,14 +91,13 @@ public class Validaciones {
 			leer.nextLine();
 		}
 
-		
 		if(b==1) {
 			a = true;
 		}
 		else {
 			a = false;
 		}
-		
+	
 		return a;
 	}
 	
@@ -109,6 +105,7 @@ public class Validaciones {
 		int a=0;
 		int b=0;
 		
+		System.out.println("Ingrese mes");
 		b=Mes();
 		
 		switch(b) {
@@ -130,9 +127,7 @@ public class Validaciones {
 				leer.nextLine();
 			}
 			break;
-		
 		}
-		
 		return a;
 	}
 
@@ -143,7 +138,6 @@ public class Validaciones {
 			System.out.println("Error, el número debe ser un numero de mes (entre 1 y 12)");
 			leer.nextLine();
 		}
-		
 		return a;
 	}
 	
@@ -153,7 +147,6 @@ public class Validaciones {
 		while(leer.hasNextInt()==false || (a=leer.nextInt())<1920 || 2021>a) {
 			leer.nextLine();
 		}
-		
 		return a;
 	}
 	
@@ -165,7 +158,6 @@ public class Validaciones {
 			System.out.println("Error, el número debe tener entre 1 y 4 dijitos");
 			leer.nextLine();
 		}
-		
 		return a;
 	}
 	
@@ -183,10 +175,9 @@ public class Validaciones {
 		double a = 0;
 		
 		while(leer.hasNextDouble()==false || (a=leer.nextDouble())<=0 || a>=100) {
-			System.out.println("Error, el número debe ser entre 0 y 100");
+			System.out.println("Error, el número debe ser mayor a 0 o menor a 100");
 			leer.nextLine();
 		}
-		
 		return a;
 	}
 

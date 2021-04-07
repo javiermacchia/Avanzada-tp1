@@ -251,15 +251,22 @@ public class Principal {
 		Calendar hoy = Calendar.getInstance();
 		
 		double[] importe = new double[fact.length]; 
+		double[] importeDescendente = new double[fact.length];
+		int c=0;
 		
 		for(int i=0; i<fact.length; i++) {
 		
 			importe[i] = fact[i].calcularTotal();
 		}
 		
-		vali.ordenDescendente(importe);
+		Arrays.sort(importe);
 		
-		for(Double imp: importe) {
+		for(int i=importe.length-1; i>=0; i--) {
+			importeDescendente[c] = importe[i];
+			c++;
+		}
+		
+		for(Double imp: importeDescendente) {
 			
 			for(int j=0; j<fact.length; j++) {
 				
@@ -347,16 +354,16 @@ public class Principal {
 				
 				Calendar fecha = Calendar.getInstance();	
 					
-				System.out.println("Ingrese la fecha del pago");	
+				System.out.println("Ingrese la fecha del pago \n");	
 					
 				System.out.println("Ingrese dia: ");
-				int dia = leer.nextInt();
+				int dia = vali.Dia();
 					
 				System.out.println("Ingrese mes: ");
-				int mes = leer.nextInt();
+				int mes = vali.Mes();
 					
 				System.out.println("Ingrese año: ");
-				int año = leer.nextInt();
+				int año = vali.anio();
 					
 				fecha.set(año, mes-1, dia);
 				fact[i].getPago().setFechaPago(fecha);
@@ -381,7 +388,6 @@ public class Principal {
 					System.out.println("Factura no encontrada ingrese nuevamente: ");
 					numFactura = vali.valiLong();
 				}
-				
 			}		
 		}
 	}
@@ -405,7 +411,6 @@ public class Principal {
 			mayo[i].setCondicionIva(condicion);
 			
 		}
-		
 	}
 	
 	public static void cargaDepositos(Depositos[] depo) {
@@ -427,7 +432,6 @@ public class Principal {
 			depo[i].setEsPropio(propio);
 			
 		}
-		
 	}
 		
 	public static void cargaGolosinas(Golosinas[] golo, Depositos[] depo) {
@@ -603,8 +607,7 @@ public class Principal {
 				fact[i].getPago().setFormaPago(mPago);
 				fact[i].getPago().setNumRecibo(numeroRecibo);
 				fact[i].getPago().setNumTransaccion(numeroTransaccion);
-			}
-			
+			}	
 		}
 	}
 }
