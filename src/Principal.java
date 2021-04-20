@@ -8,28 +8,28 @@ public class Principal {
 	
 	public static void main(String[] args) {
 			
-		Depositos[] depo = new Depositos[5]; 
+		Depositos[] depo = new Depositos[1]; 
 		
 		System.out.println("Ingreso de depositos \n");
 		
 		cargaDepositos(depo);
 		
 		
-		Mayoristas[] mayo = new Mayoristas[15]; 
+		Mayoristas[] mayo = new Mayoristas[1]; 
 		
 		System.out.println("Ingreso de clientes \n");
 		
 		cargaClientes(mayo);
 				
 		
-		Golosinas[] golo = new Golosinas[3]; 
+		Golosinas[] golo = new Golosinas[1]; 
 		
 		System.out.println("Ingreso de golosinas \n");
 		
 		cargaGolosinas(golo, depo);
 		
 
-		Factura[] fact = new Factura[1];
+		Factura[] fact = new Factura[2];
 		
 		System.out.println("Carga de facturas \n");
 		
@@ -490,7 +490,7 @@ public class Principal {
 						golo[i] = new Kilo();
 						
 						System.out.println("Ingrese 1 si tiene descuento o 2 si no lo tiene");
-						boolean descuento = false;
+						boolean descuento = vali.ValidarBool();
 						if(descuento==true) {
 							System.out.println("Ingrese porcentaje de descuento: ");
 							double porcentaje = vali.Descuento(); 
@@ -545,7 +545,6 @@ public class Principal {
 			Calendar fecha = Calendar.getInstance();
 			
 			Calendar fechaVencimiento = Calendar.getInstance();
-			fact[i].calculoVencimiento(fechaVencimiento);
 			
 			if(i==0) {
 				System.out.println("Ingrese centro emisor");
@@ -563,6 +562,7 @@ public class Principal {
 				else {
 					System.out.println("Error, numero de cuit inexistente, ingrese nuevamente: ");
 					numMayorista = vali.valiLong();
+					d--;
 				}
 			}
 			
@@ -583,7 +583,7 @@ public class Principal {
 			if(condicionIva) {
 				fact[i] = new FacturaA();
 				
-				if(FacturaA.getOperadorLogistico().equalsIgnoreCase("")) {
+				if(FacturaA.getOperadorLogistico()==null) {
 					System.out.println("Ingrese nombre del operador logistico: ");
 					String nombre = leer.nextLine();
 					FacturaA.setOperadorLogistico(nombre);
@@ -596,6 +596,8 @@ public class Principal {
 			else {
 				fact[i] = new FacturaB();
 			}
+			
+			fact[i].calculoVencimiento(fechaVencimiento);
 					
 			for(int j=0; j<fact[i].getDeta().length; j++) {
 				
