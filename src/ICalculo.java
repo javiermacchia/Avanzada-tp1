@@ -1,3 +1,4 @@
+import java.util.*;
 
 public interface ICalculo {
 
@@ -5,6 +6,9 @@ public interface ICalculo {
 	
 	public double calcularIva();
 	
+	public Calendar calculoVencimiento(Calendar emision);
+	
 	int IVA = 21;
 	
+	int DIA = 30;
 }

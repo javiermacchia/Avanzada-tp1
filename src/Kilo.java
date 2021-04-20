@@ -1,5 +1,5 @@
 
-public class Kilo extends Golosinas {
+public final class Kilo extends Golosinas {
 
 	private double porcentaje;
 	

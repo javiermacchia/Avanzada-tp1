@@ -4,6 +4,27 @@ public class Validaciones {
 
 	public static Scanner leer = new Scanner(System.in);
 	
+	public String valiDosLetras() {
+		
+		String letras = "";
+		boolean ciclo = true;	
+		
+		letras = leer.nextLine();
+		
+		while(ciclo) {
+			
+			if(letras.matches("[a-zA-Z][a-zA-Z]")==false || letras.length()!=2) {
+				System.out.println("Error, tienen que ser dos letras, ingrese nuevamente");
+				letras = leer.nextLine();
+			}
+			else {
+				ciclo = false;
+			}
+		}
+		
+		return letras;
+	}
+	
 	public String mostrarFecha(Calendar f) {
 		
 		String a ="";

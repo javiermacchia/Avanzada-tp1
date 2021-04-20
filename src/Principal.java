@@ -50,58 +50,52 @@ public class Principal {
 		while(menu) {
 
 			System.out.println("Ingrese opcion: \n");
-			System.out.println("1-Mostrar factura");
-			System.out.println("2-Registro / modificacion de factura");
-			System.out.println("3-Mostrar Cliente");
-			System.out.println("4-Cantidad de facturas vendidas externos");
-			System.out.println("5-Numero de factura vencida e impaga");
-			System.out.println("6-Cantidad de facturas de depositos externos");
-			System.out.println("7-Periodo anio");
-			System.out.println("8-Punto K");
-			System.out.println("9-Cantidad de facturas A");
-			System.out.println("10-Salir");
+			System.out.println("1-Registro / modificacion de factura");
+			System.out.println("2-Mostrar Cliente");
+			System.out.println("3-Cantidad de facturas vendidas externos");
+			System.out.println("4-Numero de factura vencida e impaga");
+			System.out.println("5-Cantidad de facturas de depositos externos");
+			System.out.println("6-Periodo anio");
+			System.out.println("7-Punto K");
+			System.out.println("8-Cantidad de facturas A");
+			System.out.println("9-Salir");
 			a = vali.Entero();
 			
 			switch(a) {
-		
-			case 1:
-				mostrarInfo(fact);
-				break;
-				
-			case 2:				
+
+			case 1:				
 				regModPago(fact);
-				
 				break;
 				
-			case 3:
+			case 2:
 				mostrarCliente(mayo, fact);
 				break;
 				
-			case 4:
+			case 3:
 				cantPaquetes(fact);
 				break;
 				
-			case 5:
+			case 4:
 				vencidasImpagas(fact,args);
 				break;
 				
-			case 6:
+			case 5:
 				externos(fact, depo);
 				break;
 				
-			case 7:
+			case 6:
 				periodoAnio(fact);
 				break;
 				
-			case 8:
+			case 7:
 				numeroFactura(fact);
 				break;
 				
-			case 9:
+			case 8:
 				cantidadFacturasA(fact);
 				break;
 				
-			case 10:
+			case 9:
 				System.out.println("Gracias");
 				menu=false;
 				break;
@@ -159,7 +153,7 @@ public class Principal {
 		donde todas las golosinas vendidas comienzan con las dos primeras letras ingresadas
 		por teclado.*/
 		
-		String letras = leer.nextLine();
+		String letras = vali.valiDosLetras();
 		int cont = 0;
 		
 		for(int i=0; i<fact.length; i++) {
@@ -272,7 +266,7 @@ public class Principal {
 				
 				if(imp==fact[j].calcularTotal() && fact[j].calcularTotal()>Double.parseDouble(args[0])) {
 					
-					if(fact[j].getFechaVencimiento().after(hoy) && fact[j].getPago().getFormaPago()==null) {
+					if(hoy.after(fact[j].getFechaVencimiento()) && fact[j].getPago().getFormaPago()==null) {
 						
 						for(int z=0; z<fact[j].getDeta().length; z++) {
 							if(fact[j].getDeta()[z].getGolo() instanceof Kilo) {
@@ -282,13 +276,6 @@ public class Principal {
 					}
 				}
 			}
-		}
-	}
-		
-	public static void mostrarInfo(Factura[] fact) {
-		
-		for(int i = 0; i<fact.length; i++) {
-			fact[i].imprimirInfo();
 		}
 	}
 	
@@ -334,7 +321,7 @@ public class Principal {
 						System.out.println("Descripcion de la golosina: "+fact[j].getDeta()[c].getGolo().getDescripcion());
 						System.out.println("Cantidad: "+fact[j].getDeta()[c].getCantidad());
 						System.out.println("Precio de golosinas: "+(fact[j].getDeta()[c].getCantidad()+fact[j].getDeta()[c].getGolo().getPrecioVenta()));
-						System.out.println(fact[j].getDeta()[c].getGolo().getPromo()?"Tiene promocion":"No tiene promocion");
+						System.out.println(((Kilo)fact[j].deta[c].getGolo()).getPorcentaje()!=0 || (((Empaquetadas)fact[j].deta[c].getGolo()).getEs2x1())?"Esta en promoxion":"No esta en promocion");
 						
 					}		
 				}
@@ -362,19 +349,7 @@ public class Principal {
 				if(fact[i].getNumeroFactura()==numFactura) {
 				
 				Calendar fecha = Calendar.getInstance();	
-					
-				System.out.println("Ingrese la fecha del pago \n");	
-					
-				System.out.println("Ingrese dia: ");
-				int dia = vali.Dia();
-					
-				System.out.println("Ingrese mes: ");
-				int mes = vali.Mes();
-					
-				System.out.println("Ingrese año: ");
-				int año = vali.anio();
-					
-				fecha.set(año, mes-1, dia);
+			
 				fact[i].getPago().setFechaPago(fecha);
 					
 				System.out.println("Ingrese 1 credito, 2 debito o 3 transferencia: ");
@@ -403,112 +378,159 @@ public class Principal {
 	
 	public static void cargaClientes(Mayoristas[] mayo) {
 		
+		boolean encontrado = false;
+		
 		for(int i = 0; i<mayo.length; i++) {
 			
+			encontrado =false;
+			
 			mayo[i] = new Mayoristas();
-			
-			System.out.println("Ingrese razon social: ");
-			String razonSocial = leer.nextLine();
-			mayo[i].setRazonSocial(razonSocial);
-			
+		
 			System.out.println("Ingrese numero de cuit: ");
 			long cuit = vali.valiLong();
-			mayo[i].setCuit(cuit);
 			
-			System.out.println("Ingrese 1 si es responsable inscripto o 2 si no");
-			boolean condicion = vali.ValidarBool();
-			mayo[i].setCondicionIva(condicion);
+			for(int j=0; j<i; j++) {
+				if(mayo!=null && cuit==mayo[i].getCuit()) {
+					System.out.println("El cliente ya existe, ingrese nuevo nombre ");
+					encontrado = true;
+					i--;
+					break;
+				}
+			}
+
+			if(encontrado==false) {
+				mayo[i].setCuit(cuit);
+				
+				System.out.println("Ingrese razon social: ");
+				String razonSocial = leer.nextLine();
+				mayo[i].setRazonSocial(razonSocial);
+				
+				System.out.println("Ingrese 1 si es responsable inscripto o 2 si no");
+				boolean condicion = vali.ValidarBool();
+				mayo[i].setCondicionIva(condicion);
+			}
 			
 		}
 	}
 	
 	public static void cargaDepositos(Depositos[] depo) {
 		
+		boolean encontrado = false;
+		
 		for(int i=0; i<depo.length; i++) {
+			encontrado= false;
 			
 			depo[i] = new Depositos();
 			
 			System.out.println("Ingrese nombre del domicilio: ");
 			String nombre = leer.nextLine();
-			depo[i].setNombre(nombre);
-			
-			System.out.println("Ingrese domicilio");
-			String domicilio = leer.nextLine();
-			depo[i].setDomicilio(domicilio);
-			
-			System.out.println("Ingrese 1 si es propio o 2 si no lo es: ");
-			boolean propio = vali.ValidarBool();
-			depo[i].setEsPropio(propio);
-			
+	
+			for(int j=0; j<i; j++) {
+				if(depo!=null && nombre.equalsIgnoreCase(depo[j].getNombre())) {
+					System.out.println("El deposito ya existe, ingrese nuevo nombre ");
+					encontrado = true;
+					i--;
+					break;
+				}
+			}
+	
+			if(encontrado==false) {
+				depo[i].setNombre(nombre);
+				
+				System.out.println("Ingrese domicilio");
+				String domicilio = leer.nextLine();
+				depo[i].setDomicilio(domicilio);
+				
+				System.out.println("Ingrese 1 si es propio o 2 si no lo es: ");
+				boolean propio = vali.ValidarBool();
+				depo[i].setEsPropio(propio);
+			}
 		}
 	}
 		
 	public static void cargaGolosinas(Golosinas[] golo, Depositos[] depo) {
 	
+		boolean encontrado = false; 
+		
 		for(int i=0; i<golo.length; i++) {
 				
+				encontrado = false; 
+			
 				System.out.println("Ingrese codigo de golosina: ");
 				int codigo = vali.Entero();
 				
-				System.out.println("Ingrese descripcion: ");
-				String descripcion = leer.nextLine();
-				
-				System.out.println("Ingrese precio de venta: ");
-				double precioVenta = vali.Decimal();
-				
-				String[] sabo = new String[3];
-				
-				for(int j=0; j<sabo.length; j++) {
-					System.out.println("Ingrese del sabor numero: "+(j+1));
-					sabo[j] = leer.nextLine();		
+				for(int j=0; j<i; j++) {
+					if(golo!=null && codigo==golo[i].getCodigo()) {
+						System.out.println("La golosina ya existe, ingrese nuevo nombre ");
+						encontrado = true;
+						i--;
+						break;
+					}
 				}
-				
-				System.out.println("Ingrese 1 para golosina por kilo o 2 para empaquetada: ");
-				boolean opcion = vali.ValidarBool();
-			
-				if(opcion==true) {
-					golo[i] = new Kilo();
+		
+				if(encontrado==false) {
 					
-					if(golo[i].getPromo()==true) {
-						System.out.println("Ingrese porcentaje de descuento: ");
-						double porcentaje = vali.Descuento(); 
-						((Kilo)golo[i]).setPorcentaje(porcentaje);
+					System.out.println("Ingrese descripcion: ");
+					String descripcion = leer.nextLine();
+					
+					System.out.println("Ingrese precio de venta: ");
+					double precioVenta = vali.Decimal();
+					
+					String[] sabo = new String[3];
+					
+					for(int j=0; j<sabo.length; j++) {
+						System.out.println("Ingrese del sabor numero: "+(j+1));
+						sabo[j] = leer.nextLine();		
 					}
 					
-				}
-				else {
-					golo[i] = new Empaquetadas();
-					
-					System.out.println("Ingrese 1 si es 2x1 o 2 si no lo es: ");
-					boolean promo = vali.ValidarBool();
-					((Empaquetadas)golo[i]).setEs2x1(promo);
-					
-					boolean buscar = true;
-					
-					while(buscar) {
+					System.out.println("Ingrese 1 para golosina por kilo o 2 para empaquetada: ");
+					boolean opcion = vali.ValidarBool();
+				
+					if(opcion==true) {
+						golo[i] = new Kilo();
 						
-						System.out.println("Ingrese nombre del deposito: ");
-						String nombreDepo = leer.nextLine();
+						System.out.println("Ingrese 1 si tiene descuento o 2 si no lo tiene");
+						boolean descuento = false;
+						if(descuento==true) {
+							System.out.println("Ingrese porcentaje de descuento: ");
+							double porcentaje = vali.Descuento(); 
+							((Kilo)golo[i]).setPorcentaje(porcentaje);
+						}
 						
-						for(int j=0; j<depo.length; j++) {
-							if(nombreDepo.equalsIgnoreCase(depo[j].getNombre())) {
-								((Empaquetadas)golo[i]).setDepo(depo[j]);
-								buscar = false;
+					}
+					else {
+						golo[i] = new Empaquetadas();
+						
+						System.out.println("Ingrese 1 si es 2x1 o 2 si no lo es: ");
+						boolean promo = vali.ValidarBool();
+						((Empaquetadas)golo[i]).setEs2x1(promo);
+						
+						boolean buscar = true;
+						
+						while(buscar) {
+							
+							System.out.println("Ingrese nombre del deposito: ");
+							String nombreDepo = leer.nextLine();
+							
+							for(int j=0; j<depo.length; j++) {
+								if(nombreDepo.equalsIgnoreCase(depo[j].getNombre())) {
+									((Empaquetadas)golo[i]).setDepo(depo[j]);
+									buscar = false;
+								}
 							}
-						}
-						if(buscar) {
-							System.out.println("Error, deposito inexistente");
+							if(buscar) {
+								System.out.println("Error, deposito inexistente");
+							}
+							
 						}
 						
 					}
 					
-				}
-				
-				golo[i].setCodigo(codigo);
-				golo[i].setDescripcion(descripcion);
-				golo[i].setPrecioVenta(precioVenta);
-				golo[i].setSabores(sabo);
-				
+					golo[i].setCodigo(codigo);
+					golo[i].setDescripcion(descripcion);
+					golo[i].setPrecioVenta(precioVenta);
+					golo[i].setSabores(sabo);
+				}	
 			}
 	}
 		
@@ -516,20 +538,19 @@ public class Principal {
 		
 		int contadorFacturaA = 0;
 		boolean golosina = true;
+		int cEmisor = 0;
 		
 		for(int i=0; i<fact.length; i++) {
 			
 			Calendar fecha = Calendar.getInstance();
 			
 			Calendar fechaVencimiento = Calendar.getInstance();
-			fechaVencimiento.add(Calendar.DATE, 30);
+			fact[i].calculoVencimiento(fechaVencimiento);
 			
-			System.out.println("Ingrese centro emisor");
-			int cEmisor = vali.centroEmisor();
-			
-			System.out.println("Ingrese numero factura: ");
-			int numFactu = vali.numFact();
-			
+			if(i==0) {
+				System.out.println("Ingrese centro emisor");
+				cEmisor = vali.centroEmisor();
+			}
 			
 			System.out.println("Ingrese numero de cuit del mayoristas: ");
 			long numMayorista = vali.valiLong();
@@ -562,12 +583,14 @@ public class Principal {
 			if(condicionIva) {
 				fact[i] = new FacturaA();
 				
-				System.out.println("Ingrese nombre del operador logistico: ");
-				String nombre = leer.nextLine();
-				((FacturaA)fact[i]).setOperadorLogistico(nombre);
-				
+				if(FacturaA.getOperadorLogistico().equalsIgnoreCase("")) {
+					System.out.println("Ingrese nombre del operador logistico: ");
+					String nombre = leer.nextLine();
+					FacturaA.setOperadorLogistico(nombre);
+				}
+						
 				contadorFacturaA++;
-				((FacturaA)fact[i]).setCantFacturaA(contadorFacturaA);
+				FacturaA.setCantFacturaA(contadorFacturaA);
 				
 			}
 			else {
@@ -608,7 +631,13 @@ public class Principal {
 			
 			fact[i].setFechaEmision(fecha);
 			fact[i].setFechaVencimiento(fechaVencimiento);
-			fact[i].setNumeroFactura(numFactu);
+			if(i==0) {
+				fact[i].setNumeroFactura(10000000);
+			}
+			else {
+				long numfact = fact[i-1].getNumeroFactura() + 1;
+				fact[i].setNumeroFactura(numfact);
+			}
 			fact[i].setCentroEmisor(cEmisor);
 		
 			if(pagos) {
@@ -617,6 +646,7 @@ public class Principal {
 				fact[i].getPago().setNumRecibo(numeroRecibo);
 				fact[i].getPago().setNumTransaccion(numeroTransaccion);
 			}	
+		fact[i].imprimirInfo();
 		}
 	}
 }

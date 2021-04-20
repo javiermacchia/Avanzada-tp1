@@ -5,7 +5,7 @@ public class Golosinas {
 	protected String descripcion;
 	protected double precioVenta; 
 	protected String[] sabores = new String[3];
-	protected boolean promo;
+	
 
 	Golosinas(){}
 	
@@ -14,15 +14,6 @@ public class Golosinas {
 		this.descripcion = descripcion;
 		this.precioVenta = precioVenta;
 		this.sabores = sabores;
-		this.promo = promo;
-	}
-	
-	public boolean getPromo() {
-		return promo;
-	}
-
-	public void setPromo(boolean promo) {
-		this.promo = promo;
 	}
 	
 	public int getCodigo() {
