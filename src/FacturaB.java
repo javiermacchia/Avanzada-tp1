@@ -4,10 +4,8 @@ public class FacturaB extends Factura {
 
 	FacturaB(){}
 	
-	FacturaB(Calendar a, Calendar b, long d, Pago e,
-			Detalles[] f, Mayoristas g, String h, int i){
-		super(a,b,d,e,f,g,h,i);
-		
+	FacturaB(Calendar a, Calendar b, long d, Mayoristas g, String h, int i){
+		super(a,b,d,g,h,i);
 	}
 	
 	public void imprimirInfo() {
@@ -65,12 +63,28 @@ public class FacturaB extends Factura {
 		double total = 0;
 		double IVA = calcularIva();
 		double totalFacturado = 0;
+		boolean ciclo = true;
 		
 		for(int i=0; i<deta.length; i++) {
-				
+			double cantidad = deta[i].getCantidad();
+			
 			if(deta[i].getGolo() instanceof Empaquetadas) {
+				
 				if(((Empaquetadas)this.deta[i].getGolo()).getEs2x1()) {
-					total = total + ((deta[i].getCantidad()/2)*(deta[i].getGolo().getPrecioVenta())); 
+					
+					while(ciclo) {
+						if(cantidad>1) {
+							total = total + deta[i].getGolo().getPrecioVenta();
+							cantidad-=2;
+						}
+						else if(cantidad==1){
+							total = total + deta[i].getGolo().getPrecioVenta();
+							cantidad-=2;
+						}
+						else if(cantidad<=0 ){
+							ciclo = false; 
+						}
+					} 
 				}
 				else {
 					total = total + (deta[i].getCantidad()*deta[i].getGolo().getPrecioVenta());	
@@ -96,12 +110,29 @@ public class FacturaB extends Factura {
 		double total = 0;
 		double totalIVA=0;
 		double porc = IVA;
+		boolean ciclo = true;
 		
 		for(int i=0; i<deta.length; i++) {
+			double cantidad = deta[i].getCantidad();
+			
 			if(deta[i].getGolo() instanceof Empaquetadas) {
 				if(((Empaquetadas)deta[i].getGolo()).getEs2x1()) {
-					total = ((deta[i].getCantidad()/2) * (deta[i].getGolo().getPrecioVenta())); 
-					totalIVA = totalIVA +  total * porc/100;
+					
+					while(ciclo) {
+						if(cantidad>1) {
+							total = total + deta[i].getGolo().getPrecioVenta();
+							totalIVA = totalIVA +  total * porc/100;
+							cantidad-=2;
+						}
+						else if(cantidad==1){
+							total = total + deta[i].getGolo().getPrecioVenta();
+							totalIVA = totalIVA +  total * porc/100;
+							cantidad-=2;
+						}
+						else if(cantidad<=0 ){
+							ciclo = false; 
+						}
+					}
 				}
 				else {
 					total = deta[i].getGolo().getPrecioVenta();	

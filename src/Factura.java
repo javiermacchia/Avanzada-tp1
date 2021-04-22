@@ -19,12 +19,10 @@ public abstract class Factura implements ICalculo{
 	}
 	
 	Factura(Calendar fechaEmision, Calendar fechaVencimiento, 
-			long numeroFactura, Pago pago, Detalles[] deta, Mayoristas mayo, String nombreTienda, int centroEmisor){
+			long numeroFactura, Mayoristas mayo, String nombreTienda, int centroEmisor){
 		this.fechaEmision = fechaEmision;
 		this.fechaVencimiento = fechaVencimiento;
 		this.numeroFactura = numeroFactura;
-		this.pago = pago;
-		this.deta = deta;
 		this.mayo = mayo;
 		this.centroEmisor = centroEmisor;
 	}
