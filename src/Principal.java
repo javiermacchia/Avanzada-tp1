@@ -105,7 +105,6 @@ public class Principal {
 				break;
 			}
 		}
-		
 	}
 	
 	public static void periodoAnio(Factura[] fact) {
@@ -267,7 +266,6 @@ public class Principal {
 				if(imp==fact[j].calcularTotal() && fact[j].calcularTotal()>Double.parseDouble(args[0])) {
 					
 					if(hoy.after(fact[j].getFechaVencimiento()) && fact[j].getPago().getFormaPago()==null) {
-						
 						for(int z=0; z<fact[j].getDeta().length; z++) {
 							if(fact[j].getDeta()[z].getGolo() instanceof Kilo) {
 								System.out.println("Numero de factura: "+fact[j].getCentroEmisor()+"-"+fact[j].getNumeroFactura());
@@ -538,6 +536,8 @@ public class Principal {
 		
 		int contadorFacturaA = 0;
 		boolean golosina = true;
+		boolean mayorista = true;
+		boolean condicionIva = false;
 		int cEmisor = 0;
 		
 		for(int i=0; i<fact.length; i++) {
@@ -553,16 +553,19 @@ public class Principal {
 			
 			System.out.println("Ingrese numero de cuit del mayoristas: ");
 			long numMayorista = vali.valiLong();
-			boolean condicionIva = false;
 			
-			for(int d=0; d<mayo.length; d++) {
-				if(numMayorista==mayo[d].getCuit()) {
-					condicionIva = mayo[d].getCondicionIva();
-				}
-				else {
-					System.out.println("Error, numero de cuit inexistente, ingrese nuevamente: ");
-					numMayorista = vali.valiLong();
-					d--;
+			
+			for(int z=0; z<mayo.length; z++) {
+				
+				while(mayorista) {
+					if(numMayorista==mayo[z].getCuit()) {
+						condicionIva = mayo[z].getCondicionIva();
+						mayorista=false;
+					}
+					else {
+						System.out.println("Mayorista no encontrado, ingrese nuevamente el cuit: ");
+						numMayorista = vali.valiLong();
+					}
 				}
 			}
 			
@@ -609,7 +612,7 @@ public class Principal {
 				int numeroBusqueda = vali.Entero();
 				
 				for(int c=0; c<golo.length; c++) {
-					if(golosina) {
+					while(golosina) {
 						
 						if(numeroBusqueda==golo[c].getCodigo()) {
 							fact[i].getDeta()[j].setGolo(golo[c]);
@@ -622,6 +625,7 @@ public class Principal {
 					}
 					
 				}
+				golosina=true;
 				
 			}
 			

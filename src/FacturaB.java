@@ -62,21 +62,28 @@ public class FacturaB extends Factura {
 	}
 
 	public double calcularTotal() {
-		
 		double total = 0;
 		double IVA = calcularIva();
 		double totalFacturado = 0;
 		
 		for(int i=0; i<deta.length; i++) {
 				
-				if(((Empaquetadas)deta[i].getGolo()).getEs2x1()) {
-					total = total + (deta[i].getCantidad() * 2) * deta[i].getGolo().getPrecioVenta(); 
+			if(deta[i].getGolo() instanceof Empaquetadas) {
+				if(((Empaquetadas)this.deta[i].getGolo()).getEs2x1()) {
+					total = total + ((deta[i].getCantidad()/2)*(deta[i].getGolo().getPrecioVenta())); 
 				}
 				else {
-					total = total + (deta[i].getCantidad() * deta[i].getGolo().getPrecioVenta()) - (((Kilo)deta[i].getGolo()).getPorcentaje()/100);
+					total = total + (deta[i].getCantidad()*deta[i].getGolo().getPrecioVenta());	
 				}
-			total = total + deta[i].getGolo().getPrecioVenta();	
-			
+			}
+			else{
+				if(((Kilo)deta[i].getGolo()).getPorcentaje()!=0) {
+					total = total + (deta[i].getCantidad()*deta[i].getGolo().getPrecioVenta()) - ((deta[i].getCantidad()*deta[i].getGolo().getPrecioVenta())*((Kilo)deta[i].getGolo()).getPorcentaje()/100);
+				}
+				else {
+					total = total + (deta[i].getCantidad()*deta[i].getGolo().getPrecioVenta());	
+				}
+			}
 		}
 		
 		totalFacturado = total + IVA;
@@ -93,7 +100,7 @@ public class FacturaB extends Factura {
 		for(int i=0; i<deta.length; i++) {
 			if(deta[i].getGolo() instanceof Empaquetadas) {
 				if(((Empaquetadas)deta[i].getGolo()).getEs2x1()) {
-					total = (deta[i].getCantidad() * (deta[i].getGolo().getPrecioVenta()/2)); 
+					total = ((deta[i].getCantidad()/2) * (deta[i].getGolo().getPrecioVenta())); 
 					totalIVA = totalIVA +  total * porc/100;
 				}
 				else {
@@ -104,7 +111,7 @@ public class FacturaB extends Factura {
 				
 			else{
 				if(((Kilo)deta[i].getGolo()).getPorcentaje()!=0) {
-					total = (deta[i].getCantidad() * deta[i].getGolo().getPrecioVenta());
+					total = (deta[i].getCantidad() * deta[i].getGolo().getPrecioVenta()) - (deta[i].getCantidad()*deta[i].getGolo().getPrecioVenta()*((Kilo)deta[i].getGolo()).getPorcentaje()/100);
 					totalIVA = totalIVA + total * porc/100;
 				}
 				else {

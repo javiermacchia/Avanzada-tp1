@@ -170,16 +170,6 @@ public class Validaciones {
 		return a;
 	}
 	
-	public int numFact() {
-		int a = 0;
-		
-		while(leer.hasNextInt()==false || (a=leer.nextInt())<9999999 || a>99999999) {
-			System.out.println("Error, el número debe tener 8 dijitos");
-			leer.nextLine();
-		}
-		return a;
-	}
-	
 	public double Descuento() {
 		double a = 0;
 		
